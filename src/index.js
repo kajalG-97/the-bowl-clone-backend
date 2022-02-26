@@ -8,7 +8,7 @@ const port= process.env.PORT || 2345;
 
 const User = require("./models/user.model");
 
-const { register, login, newToken } = require("./controllers/auth.controller");
+const { register, login } = require("./controllers/auth.controller");
 
 const userController = require("./controllers/user.controller");
 
@@ -20,9 +20,9 @@ const category = require("../src/controllers/category.controller");
 
 const search = require("../src/controllers/search.controller");
 
-const { body, validationResults } = require("express-validator");
+const { body } = require("express-validator");
 
-const passport = require("./configs/google-oauth");
+// const passport = require("./configs/google-oauth");
 
 const app = express();
 app.use(cors());
@@ -74,32 +74,32 @@ app.use("/category", category);
 
 app.use("/name", search);
 
-passport.serializeUser(function (user, done) {
-  done(null, user);
-});
+// passport.serializeUser(function (user, done) {
+//   done(null, user);
+// });
 
-passport.deserializeUser(function (user, done) {
-  done(null, user);
-});
+// passport.deserializeUser(function (user, done) {
+//   done(null, user);
+// });
 
-app.get(
-  "/auth/google",
-  passport.authenticate("google", { scope: ["email", "profile"] })
-);
+// app.get(
+//   "/auth/google",
+//   passport.authenticate("google", { scope: ["email", "profile"] })
+// );
 
-app.get(
-  "/auth/google/callback",
-  passport.authenticate("google", {
-    failureRedirect: "/auth/google/failure",
-  }),
-  (req, res) => {
-    const { user } = req;
-    const token = newToken(user);
+// app.get(
+//   "/auth/google/callback",
+//   passport.authenticate("google", {
+//     failureRedirect: "/auth/google/failure",
+//   }),
+//   (req, res) => {
+//     const { user } = req;
+//     const token = newToken(user);
 
-    return res.send({ user, token });
+//     return res.send({ user, token });
 
-  }
-);
+//   }
+// );
 
 app.listen(port, async () => {
   try {
